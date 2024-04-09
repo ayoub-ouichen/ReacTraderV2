@@ -1,32 +1,9 @@
-import { useRef, useEffect, useState } from 'react'
 import Plot from 'react-plotly.js'
 
 export default function ChartBody() {
-    const plotRef = useRef(null);
-    const [width, setWidth] = useState(0)
-    const [height, setHeight] = useState(0)
     var data: any
     var layout: any
     
-    // Function to update plot dimensions when window is resized
-    const updateDimensions = () => {
-        const plotNode: any = plotRef.current;
-        if (plotNode) {
-            const local_width = plotNode.offsetWidth;
-            const local_height = plotNode.offsetHeight;
-            setWidth(local_width)
-            setHeight(local_height)
-        }
-    };
-
-    // Effect hook to add resize event listener
-    useEffect(() => {
-        updateDimensions();
-        window.addEventListener('resize', updateDimensions);
-        return () => {
-        window.removeEventListener('resize', updateDimensions);
-        };
-    }, []);
 
     var trace1 = {
   
@@ -54,14 +31,12 @@ export default function ChartBody() {
     data = [trace1];
 
     layout = {
-        width: width,
-        height: height,
         dragmode: 'zoom', 
         margin: {
-        r: 40, 
-        t: 20, 
-        b: 40, 
-        l: 10
+        r: 60, 
+        t: 60, 
+        b: 60, 
+        l: 60
         }, 
         showlegend: false, 
         xaxis: {
@@ -75,10 +50,12 @@ export default function ChartBody() {
     };
 
     return (
-        <div ref={plotRef} style={{margin: '0px',padding: '0px' , width: '100%', height: '98%'}}>
+        <div>
             <Plot
                 data={data}
                 layout={layout}
+                useResizeHandler={true}
+                style={{width: '100%', height: '100%', position: 'absolute'}}
             />
         </div>
     )

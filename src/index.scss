@@ -1,0 +1,58 @@
+$navbar-height: 56px;
+$border-top: 3px;
+$border-vertical: 2px;
+
+div.chart-container {
+    width: 100vw;
+    height: 100vh;
+}
+
+div.chart-navbar {
+    width: 100vw;
+    height: $navbar-height;
+    display: block;
+}
+
+div.chart-body {
+    width: 80vw;
+    height: calc(100vh - $navbar-height - $border-top);
+    float: left;
+    border-top: $border-top solid rgba(128, 128, 128, 0.618);
+    border-right: $border-vertical solid rgba(128, 128, 128, 0.618);
+    position: relative;
+}
+
+div.chart-sidebar {
+    width: 20vw;
+    height: calc(100vh - $navbar-height - $border-top);
+    float: right;
+    border-top: $border-top solid rgba(128, 128, 128, 0.618);
+    border-left: $border-vertical solid rgba(128, 128, 128, 0.618);
+    position: relative;
+}
+
+
+div.scroll-container::-webkit-scrollbar {
+    width: 10px; /* width of the entire scrollbar */
+}
+
+div.scroll-container::-webkit-scrollbar-track {
+    background: #ffffff00; /* color of the tracking area */
+}
+
+div.scroll-container::-webkit-scrollbar-thumb {
+    background-color: #888; /* color of the scrollbar */
+    border-radius: 20px; /* roundness of the scrollbar thumb */
+}
+
+div.scroll-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* color of scrollbar on hover */
+}
+
+button.rt-btn-nav:hover {
+    background-color: #e7e7e7 !important; 
+}
+
+button.rt-btn-nav {
+    width: 54px;
+}
