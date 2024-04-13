@@ -8,7 +8,7 @@ class Line {
     line_color: string
     line_dash: string
     line_width: number
-    x: Array<number>
+    x: Array<any>
     y: Array<number>
 
     constructor(xData: Array<number>, yData: Array<number>, byOrderName: string) {
