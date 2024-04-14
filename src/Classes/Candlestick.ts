@@ -15,6 +15,7 @@ class Candlestick {
     decreasing_fillcolor: string
     decreasing_line_color: string
     decreasing_line_width: number
+    connectgaps: boolean
 
     constructor(xData: Array<number>, highData: Array<number>, closeData: Array<number>, openData: Array<number>, lowData: Array<number>, byOrderName: string) {
         this.name = byOrderName
@@ -33,6 +34,7 @@ class Candlestick {
         this.decreasing_fillcolor = 'orange'
         this.decreasing_line_color = 'red'
         this.decreasing_line_width = 1
+        this.connectgaps = true
     }
 
     getCandlestick() {
@@ -60,7 +62,8 @@ class Candlestick {
                     color: this.decreasing_line_color,
                     width: this.decreasing_line_width
                 }
-            }
+            },
+            connectgaps: this.connectgaps
         }
     }
 
@@ -82,6 +85,9 @@ class Candlestick {
 
     seTclose(close: Array<number>){
         this.close = close
+    }
+    seTconnectgaps(connectgaps: boolean) {
+        this.connectgaps = connectgaps
     }
 }
 

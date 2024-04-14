@@ -27,14 +27,8 @@ router.post('/getPrice', async (req,res)=>{
 
         // Iterate over the data and extract values
         queryResult.recordset.forEach(item => {
-            // Extract date
-            const date = new Date(item.mt5_Timestamp);
-            const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-            
-            // Push date to x array
-            x.push(formattedDate);
-
             // Push other values to respective arrays
+            x.push(item.mt5_Timestamp);
             close.push(item.mt5_Close);
             high.push(item.mt5_High);
             low.push(item.mt5_Low);

@@ -1,7 +1,7 @@
 import Plot from 'react-plotly.js'
-import { fetchPrice, priceData } from '../../features/price/priceSlice';
+import { fetchPrice, priceData, setLoading } from '../../features/price/priceSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Candlestick from '../../Classes/Candlestick';
 
 export default function ChartBody() {
@@ -11,16 +11,9 @@ export default function ChartBody() {
     const dispath = useAppDispatch()
     const trace1 = new Candlestick([],[],[],[],[],'trace-01')
 
-    const params = {
-        from_date: '2020-01-01',
-        to_date: '2024-03-01',
-        time_frame: 'D1',
-        symbol: 'GBPJPY'
-    }
-    
     useEffect(() => {
         if(price.loading === 'idle') {
-            dispath(fetchPrice(params))
+            dispath(fetchPrice(price.params))
         }
         if (price.loading === 'succeeded') {
             trace1.seTx(price.x)
@@ -29,12 +22,14 @@ export default function ChartBody() {
             trace1.seTlow(price.low)
             trace1.seTclose(price.close)
             setData([trace1.getCandlestick()])
-            
         }
-    }, [price.loading])
+    }, [price.loading, ])
+
+    useMemo(() => {
+        dispath(setLoading('idle'))
+    }, [price.params.time_frame])
 
     layout = {
-        dragmode: 'zoom', 
         margin: {
         r: 60, 
         t: 60, 
@@ -43,11 +38,7 @@ export default function ChartBody() {
         }, 
         showlegend: false, 
         xaxis: {
-            rangebreaks:[
-                {
-                    bounds: ['sat', 'mon']
-                }
-            ],
+            type: 'category',
             rangeslider: {
                 visible: false
             }
@@ -64,6 +55,7 @@ export default function ChartBody() {
                 layout={layout}
                 useResizeHandler={true}
                 style={{width: '100%', height: '100%', position: 'absolute'}}
+                config={{scrollZoom: true}}
             />
         </div>
     )

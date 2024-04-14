@@ -25,7 +25,7 @@ export default function ChartSideBar() {
             </div>
         </div>
         <div className={"card border-top-0" + (visibelty != 2 ? " visually-hidden" : "")}>
-            <div className="card-body">
+            <div className="card-body input-group">
                 <ObjecToForm object={candles} />
             </div>
         </div>
