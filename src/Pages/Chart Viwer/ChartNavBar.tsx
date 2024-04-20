@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
-import { priceData, setParams } from "../../features/price/priceSlice";
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import { useState } from "react";
+import { Link } from "react-router-dom"
+import { priceData, setParams } from "../../features/price/priceSlice"
+import { useAppDispatch, useAppSelector } from "../../hooks"
+import { fetchSMA, SMAData } from "../../features/indicators/SMA_Slice"
 
 interface Params {
   from_date: string
@@ -14,14 +14,25 @@ interface Params {
 
 export default function ChartNavBar() {
   const price = useAppSelector(priceData)
-  const dispath = useAppDispatch()
-  const [timeFrameIcon, setTimeFrameIcon] = useState(price.params.time_frame || 'D1') 
+  const sma = useAppSelector(SMAData)
+  const dispatch = useAppDispatch()
 
   function changeSet(value: string, category: keyof Params ) {
     let params = Object.assign({}, price.params)
     params[category] = value
-    dispath(setParams(params))
-    setTimeFrameIcon(value)
+    dispatch(setParams(params))
+  }
+
+  function addIndicator(name: string) {
+    switch (name) {
+      case 'SMA':
+        console.log(sma.params);
+        dispatch(fetchSMA(sma.params))
+        break;
+    
+      default:
+        break;
+    }
   }
   
   return (
@@ -30,16 +41,14 @@ export default function ChartNavBar() {
         <li className="nav-item">
           <Link to={'/'}>
             <button type="button" className="btn m-1 rt-btn-nav btn-outline text-dark" title="Home">
-              <i className="fa fa-home" aria-hidden="true"></i>
+            <i className="bi bi-house-door h4"></i>
             </button>
           </Link>
         </li>
         <div className="vr"></div>
         <li className="nav-item dropdown">
           <button type="button" className="btn m-1 rt-btn-nav btn-outline-light text-dark" data-bs-toggle="dropdown" role="button" aria-expanded="false" title="Symbol">
-            <i className="fa fa-gbp" aria-hidden="true"></i>
-            <strong> </strong>
-            <i className="fa fa-jpy" aria-hidden="true"></i>
+          <i className="bi bi-coin h4"></i>
           </button>
           <ul className="dropdown-menu">
             <li className="btn dropdown-item">GBP/JPY</li>
@@ -48,9 +57,9 @@ export default function ChartNavBar() {
           </ul>
         </li>
         <div className="vr"></div>
-        <li className="nav-item">
+        <li className="nav-item dropdown">
           <button type="button" className="btn m-1 rt-btn-nav btn-outline-light text-dark" data-bs-toggle="dropdown" role="button" aria-expanded="false" title="Time Frame">
-            <strong>{ timeFrameIcon }</strong>
+          <i className="bi bi-stopwatch h4"></i>
           </button>
           <ul className="dropdown-menu">
             <li className="btn dropdown-item" onClick={() => changeSet('M5', 'time_frame')}>5 Minutes</li>
@@ -63,9 +72,9 @@ export default function ChartNavBar() {
           </ul>
         </li>
         <div className="vr"></div>
-        <li className="nav-item">
+        <li className="nav-item dropdown">
           <button type="button" className="btn m-1 rt-btn-nav btn-outline-light text-dark" data-bs-toggle="dropdown" role="button" aria-expanded="false" title="Display Mode">
-            <i className="fa fa-area-chart" aria-hidden="true"></i>
+          <i className="bi bi-bar-chart-line h4"></i>
           </button>
           <ul className="dropdown-menu">
             <li className="btn dropdown-item">Lines</li>
@@ -74,13 +83,13 @@ export default function ChartNavBar() {
           </ul>
         </li>
         <div className="vr"></div>
-        <li className="nav-item">
+        <li className="nav-item dropdown">
           <button type="button" className="btn m-1 rt-btn-nav btn-outline-light text-dark" data-bs-toggle="dropdown" role="button" aria-expanded="false" title="Indicators">
-            <i className="fa fa-tachometer" aria-hidden="true"></i>
+          <i className="bi bi-speedometer2 h4"></i>
           </button>
           <ul className="dropdown-menu">
             <li className="btn dropdown-item">EMA</li>
-            <li className="btn dropdown-item">SMA</li>
+            <li className="btn dropdown-item" onClick={() => addIndicator('SMA')}>SMA</li>
             <li className="btn dropdown-item">MACD</li>
             <li className="btn dropdown-item">RSI</li>
             <li className="btn dropdown-item">ATR</li>
@@ -88,9 +97,9 @@ export default function ChartNavBar() {
           </ul>
         </li>
         <div className="vr"></div>
-        <li className="nav-item">
+        <li className="nav-item dropdown">
           <button type="button" className="btn m-1 rt-btn-nav btn-outline-light text-dark" data-bs-toggle="dropdown" role="button" aria-expanded="false" title="Strategies">
-          <i className="fa fa-sitemap" aria-hidden="true"></i>
+          <i className="bi bi-crosshair h4"></i>
           </button>
           <ul className="dropdown-menu">
             <li className="btn dropdown-item">Startegy 1</li>
@@ -100,22 +109,21 @@ export default function ChartNavBar() {
           </ul>
         </li>
         <div className="vr"></div>
-        <li className="nav-item">
+        <li className="nav-item dropdown">
           <button type="button" className="btn m-1 rt-btn-nav btn-outline-light text-dark" title="Play Animation">
-          <i className="fa fa-forward" aria-hidden="true"></i>
+          <i className="bi bi-play-circle h4"></i>
           </button>
         </li>
         <div className="vr"></div>
-        <li className="nav-item">
+        <li className="nav-item dropdown">
           <button type="button" className="btn m-1 rt-btn-nav btn-outline-light text-dark" data-bs-toggle="dropdown" role="button" aria-expanded="false" title="Period">
-          <i className="fa fa-hourglass-half" aria-hidden="true"></i>
+          <i className="bi bi-hourglass h4"></i>
           </button>
           <ul className="dropdown-menu">
-            <li className="btn dropdown-item">20 units</li>
-            <li className="btn dropdown-item">50 units</li>
-            <li className="btn dropdown-item">100 units</li>
-            <li className="btn dropdown-item">200 units</li>
-            <li className="btn dropdown-item">All</li>
+            <li className="btn dropdown-item" onClick={() => changeSet('50', 'period')}>50 units</li>
+            <li className="btn dropdown-item" onClick={() => changeSet('100', 'period')}>100 units</li>
+            <li className="btn dropdown-item" onClick={() => changeSet('200', 'period')}>200 units</li>
+            <li className="btn dropdown-item" onClick={() => changeSet('300', 'period')}>300 units</li>
           </ul>
         </li>
       </ul>

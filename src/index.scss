@@ -57,6 +57,10 @@ button.rt-btn-nav {
     width: 54px;
 }
 
+.dropdown:hover .dropdown-menu {
+    display: block;
+    border-top: 0;
+}
 
 /* Media query for phones */
 @media screen and (max-width: 767px) {

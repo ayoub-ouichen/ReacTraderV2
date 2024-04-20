@@ -11,14 +11,12 @@ interface Params {
   symbol: string
   mode: string
   period: string
+  unit: number
 } 
 
-export interface PriceState {
+export interface SMAState {
   x: Array<any>
-  high: Array<number>
-  close: Array<number>
-  open: Array<number>
-  low: Array<number>
+  y: Array<number>
   loading: 'idle' | 'pending' | 'succeeded' | 'failed'
   error: string | null
   params: Params
@@ -30,67 +28,63 @@ const params = {
   time_frame: 'D1',
   symbol: 'GBPJPY',
   mode: 'candlestick',
-  period: '200'
+  period: '200',
+  unit: 20
 }
 
-const initialState: PriceState = {
+const initialState: SMAState = {
   x: [],
-  close: [],
-  high: [],
-  low: [],
-  open: [],
+  y: [],
   loading: 'idle',
   error: null,
   params: params
 }
 
-export const fetchPrice = createAsyncThunk(
-  'org/getPrice',
+export const fetchSMA = createAsyncThunk(
+  'org/getSMA',
   async (params: Params) => {
-    const response = await axios.post<any>(URL + 'org/getPrice', params)
+    const response = await axios.post<any>(URL + 'org/getSMA', params)
     return response.data
   }
 );
 
-export const priceSlice = createSlice({
-  name: 'price',
+export const SMA_Slice = createSlice({
+  name: 'SMA',
   initialState,
   reducers: {
-    setParams: (state, action: PayloadAction<Params>) => {
+    setParamsSMA: (state, action: PayloadAction<Params>) => {
       state.params.from_date = action.payload.from_date
       state.params.to_date = action.payload.to_date
       state.params.time_frame = action.payload.time_frame
       state.params.symbol = action.payload.symbol
       state.params.mode = action.payload.mode
       state.params.period = action.payload.period
+      state.params.unit = action.payload.unit
     },
-    setLoading: (state, action: PayloadAction<'idle' | 'pending' | 'succeeded' | 'failed'>) => {
+    setLoadingSMA: (state, action: PayloadAction<'idle' | 'pending' | 'succeeded' | 'failed'>) => {
       state.loading = action.payload
     }
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchPrice.pending, state => {
+      .addCase(fetchSMA.pending, state => {
         state.loading = 'pending';
       })
-      .addCase(fetchPrice.fulfilled, (state, action) => {
+      .addCase(fetchSMA.fulfilled, (state, action) => {
         state.loading = 'succeeded'
         state.x = action.payload.x
-        state.high = action.payload.high
-        state.close = action.payload.close
-        state.open = action.payload.open
-        state.low = action.payload.low
+        state.y = action.payload.y
       })
-      .addCase(fetchPrice.rejected, (state, action) => {
+      .addCase(fetchSMA.rejected, (state, action) => {
         state.loading = 'failed';
         state.error = action.error.message ?? 'Unknown error';
       });
   }
 })
 
-export const { setParams, setLoading } = priceSlice.actions
+export const { setParamsSMA, setLoadingSMA } = SMA_Slice.actions
 
 // Other code such as selectors can use the imported `RootState` type
-export const priceData = (state: RootState) => state.price
+export const SMAData = (state: RootState) => state.sma
 
-export default priceSlice.reducer
+export default SMA_Slice.reducer

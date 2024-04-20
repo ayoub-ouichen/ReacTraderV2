@@ -1,5 +1,6 @@
 const express = require('express');
 const connection = require('../connection');
+const twoLineDate = require('../Utility/twoLineDate');
 const router = express.Router();
 
 router.post('/getPrice', async (req,res)=>{
@@ -14,10 +15,11 @@ router.post('/getPrice', async (req,res)=>{
         request.input('param1', connection.Date, fromDate);
         request.input('param2', connection.Date, toDate);
 
-        const stringQuery = 'SELECT * FROM PRICE_DATA_' + symbol + '_' + timeFrame + ' WHERE mt5_Timestamp BETWEEN @param1 and @param2'
+        const stringQuery = 'SELECT top 4000 * FROM PRICE_DATA_' + symbol + '_' + timeFrame + ' ORDER BY mt5_Timestamp desc'
 
         const queryResult = await request.query(stringQuery);
-
+        queryResult.recordset.reverse()
+        
         // Initialize arrays for each property
         const x = [];
         const close = [];
@@ -27,8 +29,11 @@ router.post('/getPrice', async (req,res)=>{
 
         // Iterate over the data and extract values
         queryResult.recordset.forEach(item => {
+            // Extract individual date and time components
+            let mt5_Time = twoLineDate(item.mt5_Timestamp)
+
             // Push other values to respective arrays
-            x.push(item.mt5_Timestamp);
+            x.push(mt5_Time);
             close.push(item.mt5_Close);
             high.push(item.mt5_High);
             low.push(item.mt5_Low);

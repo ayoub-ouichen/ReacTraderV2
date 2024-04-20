@@ -1,13 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit'
 import priceSlice from './features/price/priceSlice'
-import indicatorSlice from './features/indicator/indicatorSlice'
+import SMA_Slice from './features/indicators/SMA_Slice'
+import PlotlyDataSlice from './features/plotlyData/plotlyDataSlice'
 // ...
 
 const store = configureStore({
   reducer: {
     price: priceSlice,
-    indicator: indicatorSlice
-  }
+    sma: SMA_Slice,
+    plotlyData: PlotlyDataSlice
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: {
+        ignoredPaths: ["plotlyData"]
+      }
+    })
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

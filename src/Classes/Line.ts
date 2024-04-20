@@ -41,6 +41,14 @@ class Line {
             y: this.y
         }
     }
+
+    seTx(x: Array<any>) {
+        this.x = x
+    }
+
+    seTy(y: Array<number>) {
+        this.y = y
+    }
 }
 
 export default Line
