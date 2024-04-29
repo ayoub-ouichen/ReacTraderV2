@@ -50,7 +50,14 @@ div.scroll-container::-webkit-scrollbar-thumb:hover {
 }
 
 button.rt-btn-nav:hover {
-    background-color: #e7e7e7 !important; 
+    background-color: #e7e7e73f !important; 
+    border: 1px solid #555;
+}
+
+div.sidebar-card:hover {
+    background-color: #5076ff0b; 
+    border: 1px solid #555;
+    cursor: pointer;
 }
 
 button.rt-btn-nav {
@@ -60,6 +67,38 @@ button.rt-btn-nav {
 .dropdown:hover .dropdown-menu {
     display: block;
     border-top: 0;
+}
+
+.cust-badge-btn:hover {
+    border: 1px solid #555 ;
+}
+
+.input-color-container {
+    position: relative;
+    overflow: hidden;
+    width: 30px;
+    height: 20px;
+    border: solid 3px #ddd;
+    border-radius: 40px;
+    display: inline-block;
+}
+
+.input-color {
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    width: 56px;
+    height: 56px;
+    border: none;
+    cursor: pointer;
+}
+
+.form-check-label {
+    cursor: pointer;
+}
+
+.form-check-input {
+    cursor: pointer;
 }
 
 /* Media query for phones */

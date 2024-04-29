@@ -20,7 +20,6 @@ interface PlotlyLayout {
 let x_axis: Record<string, any> = {
   nticks: 10,
   type: 'category',
-  //range: [0, 0],
   autorange: true,
   rangeslider: {
       visible: false
@@ -28,7 +27,6 @@ let x_axis: Record<string, any> = {
 }
 
 let y_axis: Record<string, any> = {
-  //range: [0, 0],
   autorange: true,
   side: 'right'
 }
@@ -82,6 +80,9 @@ export const PlotlyDataSlice = createSlice({
         state.data.splice(indexToDelete, 1);
       }
     },
+    deletePlotlyDataIndex: (state, action: PayloadAction<number>) => {
+        state.data.splice(action.payload, 1);
+    },
     getPlotlyTrace: (state, action: PayloadAction<string>): any => {
       const trace = state.data.filter(obj => obj.name === action.payload)
       return trace 
@@ -116,7 +117,7 @@ export const PlotlyDataSlice = createSlice({
   }
 })
 
-export const { addPlotlyData, deletePlotlyData, setPlotlyLayout } = PlotlyDataSlice.actions
+export const { addPlotlyData, deletePlotlyData, setPlotlyLayout, deletePlotlyDataIndex } = PlotlyDataSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const plotlyData = (state: RootState) => state.plotlyData

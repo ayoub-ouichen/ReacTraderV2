@@ -59,9 +59,7 @@ export default function ChartBody() {
 
     const data2 = structuredClone(plt_data.data);
     const layout2 = structuredClone(plt_data.layout);
-    console.log(layout2);
     
-
     return (
         <div>
             <Plot

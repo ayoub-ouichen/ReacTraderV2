@@ -28,11 +28,11 @@ class Candlestick {
         this.close = closeData
         this.open = openData
         this.low = lowData
-        this.increasing_fillcolor = 'yellow'
-        this.increasing_line_color = 'green'
+        this.increasing_fillcolor = '#ffff00'
+        this.increasing_line_color = '#000000'
         this.increasing_line_width = 1
-        this.decreasing_fillcolor = 'orange'
-        this.decreasing_line_color = 'red'
+        this.decreasing_fillcolor = '#ff0000'
+        this.decreasing_line_color = '#000000'
         this.decreasing_line_width = 1
         this.connectgaps = true
     }

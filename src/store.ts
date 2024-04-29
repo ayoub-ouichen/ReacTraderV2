@@ -2,13 +2,15 @@ import { configureStore } from '@reduxjs/toolkit'
 import priceSlice from './features/price/priceSlice'
 import SMA_Slice from './features/indicators/SMA_Slice'
 import PlotlyDataSlice from './features/plotlyData/plotlyDataSlice'
+import SideBarParamSlice from './features/sidebar/sidebarSlice'
 // ...
 
 const store = configureStore({
   reducer: {
     price: priceSlice,
     sma: SMA_Slice,
-    plotlyData: PlotlyDataSlice
+    plotlyData: PlotlyDataSlice,
+    SideBarParam: SideBarParamSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

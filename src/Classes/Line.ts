@@ -14,7 +14,7 @@ class Line {
     constructor(xData: Array<number>, yData: Array<number>, byOrderName: string) {
         this.name = byOrderName
         this.type = 'scatter'
-        this.visible = true
+        this.visible = false
         this.showlegend = true
         this.opacity = 1
         this.mode = 'lines'
